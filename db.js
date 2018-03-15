@@ -2,7 +2,7 @@
 var mysql = require('mysql');
 
 var connection = mysql.createPool({
-    database:'cakelatest',
+    database:'foodstar',
     host:'localhost',
     user:'root',
     password:''
