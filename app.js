@@ -1,25 +1,31 @@
 var express = require('express');
-// var layout = require('express-layout');
+var bodyParser = require('body-parser');
 var path = require('path');
 var dp = require('./db');
-var user = require('./routes/user');
-var routes = require('./routes/index');
-var restaurant = require('./routes/restaurant');
-
 var app = express();
 app.locals.projectName = 'Foodstar';
 
-// app.set('views', path.resolve(__dirname, 'layouts/admin'));
-// console.log(__dirname);
-// console.log(path);
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine','ejs'); // Load view engine
-app.set('layout', 'layout');
+app.set('layouts', './layouts/layout');
+app.set('layout', 'default');
+
+app.use(function(req, res, next){
+    app.locals.host = req.protocol + '://' +req.get('host');
+    next()
+})
 
 /******** #Start routing *********/
+var routes = require('./routes/index');
+var user = require('./routes/user');
+var restaurant = require('./routes/restaurant');
+var customer = require('./routes/customer');
+
 app.use('/', routes);
 app.use('/user',user);
 app.use('/restaurant', restaurant);
+app.use('/customer', customer);
 /******** #End Routing *********/
 
 // catch 404 and forward to error handler

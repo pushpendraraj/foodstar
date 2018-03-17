@@ -5,7 +5,7 @@ var Restaurant = require('../models/Restaurant');
 router.get('/list-restaurants', function(req, res, next){
     Restaurant.getResturants(function(err, result){
         if(err) return next(err);
-        res.render('restaurant/index',result);
+        res.render('restaurant/index',{'data':result});
     })
 });
 
