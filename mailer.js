@@ -21,7 +21,8 @@ nodemailer.createTestAccount((err, account) => {
         to: 'rajput.pushpendra62@gmail.com, rajput.pushpendra61@gmail.com', // list of receivers
         subject: 'Hello ✔', // Subject line
         text: 'Hello world?', // plain text body
-        html: '<b>Hello world?</b>' // html body
+        html: '<b>Hello world?</b>', // html body
+        attachments : [{filename:'text1.txt',content:'Hello World!'}]
     };
 
     // send mail with defined transport object
@@ -37,3 +38,5 @@ nodemailer.createTestAccount((err, account) => {
         // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
     });
 });
+
+// module.exports = transporter;
