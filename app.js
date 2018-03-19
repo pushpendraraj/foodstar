@@ -2,8 +2,23 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var dp = require('./db');
+var flash = require('express-flash');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var validator = require('express-validator');
 var app = express();
+
 app.locals.projectName = 'Foodstar';
+
+app.use(cookieParser('keyboard cat'))
+app.use(session({ 
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 }
+}))
+app.use(flash())
+app.use(validator());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));

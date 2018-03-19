@@ -13,28 +13,40 @@
                 <div class="x_content">
                   <br />
                   <form id="add-customer" action="/customer/add-customer" method="POST" class="form-horizontal form-label-left">
-                    <div class="form-group">
+                    <div class="form-group item <% if (messages.customer_name) { %> bad <% } %>">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="customer-name">Customer Name
                         <span class="required">*</span>
                       </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="customer-name" name="customer_name" required="required" class="form-control col-md-7 col-xs-12">
+                      <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
+                        <input type="text" id="customer-name" name="customer_name" value="<%- customer_name %>" class="form-control has-feedback-left col-md-7 col-xs-12">
+                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                       </div>
+                      <% if (messages.customer_name) { %>
+                        <div class="alert"><%- messages.customer_name %></div>
+                      <% } %>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group item <% if (messages.email) { %> bad <% } %>">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="customer-email">Customer Email
                         <span class="required">*</span>
                       </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="customer-email" name="email" required="required" class="form-control col-md-7 col-xs-12">
+                      <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
+                        <input type="text" id="customer-email" name="email" value="<%- email %>" class="has-feedback-left form-control col-md-7 col-xs-12">
+                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                       </div>
+                      <% if (messages.email) { %>
+                        <div class="alert"><%- messages.email %></div>
+                      <% } %>
                     </div>
-                    <div class="form-group">
-                      <label for="contact-number" class="control-label col-md-3 col-sm-3 col-xs-12">Contact Number </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="contact-number" class="form-control col-md-7 col-xs-12" type="text" name="contact_no">
+                    <div class="form-group item <% if (messages.password) { %> bad <% } %>">
+                        <label for="password" class="control-label col-md-3 col-sm-3 col-xs-12">Password <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
+                          <input id="password" class="form-control col-md-7 col-xs-12 has-feedback-left"  value="<%- password %>" type="password" name="password">
+                          <span class="fa fa-ellipsis-h form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <% if (messages.password) { %>
+                          <div class="alert"><%- messages.password %></div>
+                        <% } %>
                       </div>
-                    </div>
                     <div class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
@@ -47,23 +59,38 @@
                           </label>
                         </div>
                       </div>
+                    </div>  
+                      <div class="form-group">
+                      <label for="contact_address" class="control-label col-md-3 col-sm-3 col-xs-12">Contact Address </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
+                        <input id="contact_address" class="form-control col-md-7 col-xs-12 has-feedback-left"  value="<%- contact_address %>" type="text" name="contact_address">
+                        <span class="fa fa-map-marker form-control-feedback left" aria-hidden="true"></span>
+                      </div>
                     </div>
-                    <!-- <div class="form-group">
-                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Birth <span class="required">*</span>
-                              </label>
-                              <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
-                              </div>
-                            </div> -->
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Birth </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
+                        <input id="birthday" name="dob" class="date-picker form-control col-md-7 col-xs-12 has-feedback-left" value="<%- dob %>" type="text">
+                        <span class="fa fa-calendar form-control-feedback left" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="status" class="control-label col-md-3 col-sm-3 col-xs-12">Status </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select id="customer_status" class="form-control col-md-7 col-xs-12" select="<%- customer_status %>" name="customer_status">
+                          <option "<%if (customer_status == 1) { %> selected  <% } else { %> <% } %>" value="1">Active</option>
+                          <option "<%if (customer_status == 0) { %> selected  <% } else { %> <% } %>" value="0">Inactive</option>
+                        </select>
+                      </div>
+                    </div>
                     <div class="ln_solid"></div>
                     <div class="form-group">
                       <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button class="btn btn-primary" type="button">Cancel</button>
+                        <a href="/customer/list-customers/" class="btn btn-primary">Cancel</a>
                         <button class="btn btn-primary" type="reset">Reset</button>
                         <button type="submit" class="btn btn-success">Submit</button>
                       </div>
                     </div>
-
                   </form>
                 </div>
               </div>
