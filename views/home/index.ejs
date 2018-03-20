@@ -4,17 +4,36 @@
     <div class="login_wrapper">
       <div class="animate form login_form">
         <section class="login_content">
-          <form method="POST" action="user/add-user" name="login" #loginForm novalidate>
-            <h1>Login Form</h1>
-            <div>
-              <input type="text" class="form-control" placeholder="Email" name="email" />
+          <form method="POST" action="/customer/login" name="login" #loginForm class="form-horizontal form-label-left">
+            <h1>Login With <%-configuration.projectName %></h1>
+            <div class="form-group item <% if (messages.email) { %> bad <% } %>">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="customer-name">Customer Name
+                <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
+                <input type="text" class="form-control col-md-7 col-xs-12 has-feedback-left" placeholder="Email" value="<%- email %>" name="email" />
+                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+              </div>
+              <% if (messages.email) { %>
+                <div class="alert"><%- messages.email %></div>
+              <% } %>
             </div>
-            <div>
-              <input type="password" class="form-control" placeholder="Password" name="password" />
+            <div class="form-group item <% if (messages.password) { %> bad <% } %>">
+              <label for="password" class="control-label col-md-3 col-sm-3 col-xs-12">Password </label>
+              <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
+                <input id="password" placeholder="password" class="form-control col-md-7 col-xs-12 has-feedback-left"  value="<%- password %>" type="password" name="password">
+                <span class="fa fa-ellipsis-h form-control-feedback left" aria-hidden="true"></span>
+              </div>
+              <% if (messages.password) { %>
+                <div class="alert"><%- messages.password %></div>
+              <% } %>
             </div>
-            <div>
-              <button type="submit" class="btn btn-default submit pull-left" >Log in</button>
-              <a class="reset_pass" href="#">Lost your password?</a>
+            <div class="form-group item %>">
+              <label for="submit" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <button type="submit" class="btn btn-default submit pull-left" >Log in</button>
+                <a class="reset_pass" href="#">Lost your password?</a>
+              </div>
             </div>
             <div class="clearfix"></div>
             <div class="separator">
@@ -23,7 +42,7 @@
               </p>
               <div class="clearfix"></div>
               <div>
-                <h1><img src="images/logo.png" alt="<%=projectName %>" /> </h1>
+                <h1><img src="<%=host%>/<%=configuration.imageDir %>/<%=configuration.logo %>" alt="<%=configuration.projectName %>" /> </h1>
               </div>
             </div>
           </form>

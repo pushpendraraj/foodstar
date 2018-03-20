@@ -3,7 +3,7 @@
     <% include ../common/navigation.ejs%>
       <div class="right_col" role="main">
         <div class="">
-          <div class="row">
+          <div class="row">           
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
@@ -37,8 +37,20 @@
                         <div class="alert"><%- messages.email %></div>
                       <% } %>
                     </div>
+                    <div class="form-group item <% if (messages.contact_no) { %> bad <% } %>">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="customer-contact_no">Contact No
+                        <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
+                        <input type="text" id="customer-contact_no" name="contact_no" value="<%- contact_no %>" class="has-feedback-left form-control col-md-7 col-xs-12">
+                        <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
+                      </div>
+                      <% if (messages.contact_no) { %>
+                        <div class="alert"><%- messages.contact_no %></div>
+                      <% } %>
+                    </div>
                     <div class="form-group item <% if (messages.password) { %> bad <% } %>">
-                        <label for="password" class="control-label col-md-3 col-sm-3 col-xs-12">Password <span class="required">*</span></label>
+                        <label for="password" class="control-label col-md-3 col-sm-3 col-xs-12">Password </label>
                         <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
                           <input id="password" class="form-control col-md-7 col-xs-12 has-feedback-left"  value="<%- password %>" type="password" name="password">
                           <span class="fa fa-ellipsis-h form-control-feedback left" aria-hidden="true"></span>
@@ -86,8 +98,8 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                       <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <a href="/customer/list-customers/" class="btn btn-primary">Cancel</a>
-                        <button class="btn btn-primary" type="reset">Reset</button>
+                        <a class="btn btn-primary" href="/customer/list-customers" >Cancel</a>
+                        <button type="reset" class="btn btn-primary">Reset</button>
                         <button type="submit" class="btn btn-success">Submit</button>
                       </div>
                     </div>

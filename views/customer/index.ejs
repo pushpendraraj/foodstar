@@ -33,11 +33,12 @@
                     <thead>
                       <tr>
                         <th>Name</th>
-                        <th>Code</th>
-                        <th>User Name</th>
                         <th>Email</th>
-                        <th>Contact</th>
-                        <th>Min Order</th>
+                        <th>Contact No</th>
+                        <th>Gender</th>
+                        <th>Contact Address</th>
+                        <th>Date Of Birth</th>
+                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -57,10 +58,13 @@
                             <%=customer.gender%>
                           </td>
                           <td>
-                            <%=customer.age%>
+                            <%=customer.contact_address%>
                           </td>
                           <td>
-                            <%=customer.contact_address%>
+                            <%=customer.dob%>
+                          </td>
+                          <td>
+                            <%=customer.customer_status%>
                           </td>
                           <td>
                             <a href="">

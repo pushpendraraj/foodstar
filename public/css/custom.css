@@ -3410,7 +3410,7 @@ a.hiddenanchor {
     right: 0px;
     margin: 0px auto;
     margin-top: 5%;
-    max-width: 350px;
+    max-width: 60%;
     position: relative
 }
 .registration_form,
@@ -3504,7 +3504,7 @@ form:after {
     height: 1px;
     position: absolute;
     top: 10px;
-    width: 27%
+    width: 30%
 }
 .login_content h1:after {
     background: #7e7e7e;
