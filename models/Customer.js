@@ -13,6 +13,9 @@ var Customer = {
     },
     loginCustomer:function(data, callback){
         return db.query('select * from '+tableName+' where ?', data, callback)
+    },
+    updateCustomer:function(fields, conditions, callback){
+        return db.query('update '+tableName+' SET ? WHERE ?', [fields,conditions], callback);
     }
 }
 

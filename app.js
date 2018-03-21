@@ -30,6 +30,7 @@ app.use(function(req, res, next){
     app.locals.userSession = req.session.userSession;
     app.locals.isLoggedIn = req.session.isLoggedIn;
     app.locals.host = req.protocol + '://' +req.get('host');
+    app.locals.userSession = {};
     next()
 })
 

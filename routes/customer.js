@@ -4,6 +4,29 @@ var Customer = require('../models/Customer');
 var transporter = require('../mailer');
 var passwordHash = require('password-hash');
 var session = require('express-session');
+var multer = require('multer');
+var UPLOAD_PATH = 'public/images/';
+let imageFilter = function (req, file, cb) {    
+    // accept image only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+}
+
+let storage = multer.diskStorage({
+    destination: UPLOAD_PATH,
+    filename: function (req, file, cb) {
+        let extArray = file.mimetype.split("/");
+        let extension = extArray[extArray.length - 1];
+        cb(null, file.fieldname + '-' + Date.now()+'.'+extension)
+    }
+})
+
+var upload = multer({
+    fileFilter: imageFilter,
+    storage: storage
+}); // multer configuration
 
 router.get('/list-customers',function(req, res, next){
     sess = req.session;
@@ -111,8 +134,16 @@ router.get('/logout',function(req, res, next){
     })
 })
 
-router.get('/profile', function(req, res, next){
-    res.render('customer/profile');
+router.all('/profile', upload.single('profile_pic'), function(req, res, next){
+    if(req.method=="POST"){
+        Customer.updateCustomer({'profile_pic':req.file.filename},{'customer_id':2}, function(err, result){
+            if(err) return next(err)
+            req.flash('success', 'image updated successfully!');
+            res.render('customer/profile');
+        })
+    }else{
+        res.render('customer/profile');
+    }
 })
 
 module.exports = router;
