@@ -81,9 +81,11 @@
                     </div>
                     <div class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Birth </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
-                        <input id="birthday" name="dob" class="date-picker form-control col-md-7 col-xs-12 has-feedback-left" value="<%- dob %>" type="text">
-                        <span class="fa fa-calendar form-control-feedback left" aria-hidden="true"></span>
+                      <div class='col-md-6 col-sm-6 col-xs-12 has-feedback input-group date' id='myDatepicker'>
+                          <input name="dob" type='text' class="form-control col-md-7 col-xs-12" value="<%- dob %>"/>
+                          <span class="input-group-addon">
+                             <span class="glyphicon glyphicon-calendar left"></span>
+                          </span>
                       </div>
                     </div>
                     <div class="form-group">
@@ -111,3 +113,11 @@
         </div>
       </div>
       <% include ../common/footer.ejs%>
+      <script>
+        $(function(){
+          $('#myDatepicker').datetimepicker({
+              format: 'DD-MM-YYYY'
+          });
+          
+        })
+      </script>

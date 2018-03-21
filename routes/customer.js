@@ -111,4 +111,8 @@ router.get('/logout',function(req, res, next){
     })
 })
 
+router.get('/profile', function(req, res, next){
+    res.render('customer/profile');
+})
+
 module.exports = router;

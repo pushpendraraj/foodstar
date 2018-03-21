@@ -27,8 +27,6 @@ app.set('layouts', './layouts/layout');
 app.set('layout', 'default');
 
 app.use(function(req, res, next){
-    // console.log(req.route.get);
-    // console.log(req.originalUrl);
     app.locals.userSession = req.session.userSession;
     app.locals.isLoggedIn = req.session.isLoggedIn;
     app.locals.host = req.protocol + '://' +req.get('host');
