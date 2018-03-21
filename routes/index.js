@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
       email:req.body.email,
       password:''
   }
-    res.render('home/index', userData);
+  res.render('home/index', userData);
 });
 
 router.get('/dashboard', function(req, res, next) {

@@ -106,7 +106,7 @@ router.all('/login', function(req, res, next){
             });
             res.render('home/index.ejs', req.body);
         }else{
-            Customer.getCustomerDetails({'email':req.body.email},'*', function(err, result){
+            Customer.getCustomerDetails('*', 'email= "'+req.body.email+'" AND customer_status = 1', function(err, result){
                 if(err) return next(err)
                 if(result.length > 0 && passwordHash.verify(req.body.password, result[0].password)){   
                     sess=req.session;
@@ -136,7 +136,9 @@ router.get('/logout',function(req, res, next){
 
 router.all('/profile', upload.single('profile_pic'), function(req, res, next){
     if(req.method=="POST"){
-        Customer.updateCustomer({'profile_pic':req.file.filename},{'customer_id':2}, function(err, result){
+        let sass = req.session;
+        let custId = sass.userSession.customer_id;
+        Customer.updateCustomer({'profile_pic':req.file.filename},{'customer_id':custId}, function(err, result){
             if(err) return next(err)
             req.flash('success', 'image updated successfully!');
             res.render('customer/profile');
