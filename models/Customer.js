@@ -2,14 +2,14 @@ var db = require('../db');
 var tableName = 'fb_customers';
 
 var Customer = {
-    isCustomerExist:function(data, callback){
-        return db.query('select count(customer_id) from '+tableName+' where ?', data, callback)
+    isCustomerExist:function(conditions, callback){
+        return db.query('select count(customer_id) as count from '+tableName+' where '+conditions, callback)
     },
     getCustomerDetails:function(fields, conditions, callback){
         return db.query('select '+fields+' from '+tableName+' where '+conditions, callback)
     },
-    addCustomer:function(data, callback){
-        return db.query('insert into '+tableName+' SET ?', data, callback)
+    addCustomer:function(conditions, callback){
+        return db.query('insert into '+tableName+' SET ?', conditions, callback)
     },
     updateCustomer:function(fields, conditions, callback){
         return db.query('update '+tableName+' SET ? WHERE ?', [fields,conditions], callback);

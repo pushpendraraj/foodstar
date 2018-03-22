@@ -6,31 +6,31 @@ router.get('/list-restaurants', function(req, res, next){
     Restaurant.getResturants(function(err, result){
         if(err) return next(err);
         sess = req.session;
-        var totalStudents = 80,
-		pageSize = 8,
-		pageCount = 80/8,
+        var totalRestaurants = result.length,
+		pageSize = 5,
+		pageCount = result.length/pageSize,
         currentPage = 1,
-        studentsArrays = [], 
-		studentsList = [];
+        restaurantArrays = [], 
+		restaurantList = [];
 		
 		//split list into groups
-	while (result.length > 0) {
-	    studentsArrays.push(result.splice(0, pageSize));
-	}
+        while (result.length > 0) {
+            restaurantArrays.push(result.splice(0, pageSize));
+        }
 
-	//set current page if specifed as get variable (eg: /?page=2)
-	if (typeof req.query.page !== 'undefined') {
-		currentPage = +req.query.page;
-	}
+        //set current page if specifed as get variable (eg: /?page=2)
+        if (typeof req.query.page !== 'undefined') {
+            currentPage = +req.query.page;
+        }
 
-	//show list of students from group
-	studentsList = studentsArrays[+currentPage - 1];
+        //show list of restaurant from group
+        restaurantList = restaurantArrays[+currentPage - 1];
         
         if(sess.isLoggedIn){
             res.render('restaurant/index',  {
-                data: studentsList,
+                data: restaurantList,
                 pageSize: pageSize,
-                totalStudents: totalStudents,
+                totalStudents: totalRestaurants,
                 pageCount: pageCount,
                 currentPage: currentPage
             });

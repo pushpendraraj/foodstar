@@ -3,6 +3,9 @@
 <div class="login">
     <div class="login_wrapper">
       <div class="animate form login_form">
+          <% if (messages.success) { %>
+            <div class="alert alert-success"><%- messages.success %></div>
+          <% } %>
         <section id="login" class="login_content">
           <form method="POST" action="/customer/login" name="login" #loginForm class="form-horizontal form-label-left">
             <h1>Login With <%-configuration.projectName %></h1>
@@ -36,14 +39,8 @@
               </div>
             </div>
             <div class="clearfix"></div>
-            <div class="separator">
-              <p class="change_link">New to site?
-                <a href="#signup" class="to_register"> Create Account </a>
-              </p>
-              <div class="clearfix"></div>
-              <div>
-                <h1><img src="<%=host%>/<%=configuration.imageDir %>/<%=configuration.logo %>" alt="<%=configuration.projectName %>" /> </h1>
-              </div>
+            <div class="separator text-center">
+              <img src="<%=host%>/<%=configuration.imageDir %>/<%=configuration.logo %>" alt="<%=configuration.projectName %>" />
             </div>
           </form>
         </section>
@@ -53,7 +50,7 @@
             <div class="form-group item <% if (messages.email) { %> bad <% } %>">
               <label for="password" class="control-label col-md-3 col-sm-3 col-xs-12">Email </label>
               <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
-                <input id="email" placeholder="email" class="form-control col-md-7 col-xs-12 has-feedback-left"  value="<%- password %>" type="password" name="password">
+                <input id="email" placeholder="email" class="form-control col-md-7 col-xs-12 has-feedback-left"  value="<%- email %>" type="email" name="email">
                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
               </div>
               <% if (messages.email) { %>

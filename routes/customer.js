@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Customer = require('../models/Customer');
+var EmailTemplate = require('../models/EmailTemplate');
 var transporter = require('../mailer');
 var passwordHash = require('password-hash');
 var session = require('express-session');
@@ -31,7 +32,7 @@ var upload = multer({
 router.get('/list-customers',function(req, res, next){
     sess = req.session;
     if(sess.isLoggedIn){
-        Customer.getCustomerDetails('1','*',function(err, result){
+        Customer.getCustomerDetails('*','1',function(err, result){
             if(err) return next(err)
             res.render('customer/index.ejs',{'data':result})
         })
@@ -148,4 +149,57 @@ router.all('/profile', upload.single('profile_pic'), function(req, res, next){
     }
 })
 
+
+router.post('/forgot', function(req, res, next){
+    req.body.password = '';
+    req.assert('email','Enter valid email').isEmail();
+    var errors = req.validationErrors();
+    if(errors){
+        errors.forEach(function(error){
+            req.flash(error.param,error.msg);
+            res.render('home/index.ejs', req.body);
+        })
+    }else{
+        Customer.isCustomerExist('email= "'+req.body.email+'" AND customer_status = 1', function(err, result){
+            if(err) return next(err)
+            if(result[0].count > 0){
+                EmailTemplate.getTemplate({template_key:'forgot_password'},'*',function(err, result){
+                    if(err) return next(err)
+                    let newPass = Math.floor((Math.random() * 1000000) + 1);
+                    let encodePass = passwordHash.generate(newPass.toString());
+                    let emailBody = result[0].email_body;
+
+                    Customer.updateCustomer({'password':encodePass},{'email':req.body.email}, function(err, result){
+                        if(err) return next(err)
+                        Customer.getCustomerDetails('customer_name','email="'+req.body.email+'"', function(err, result){
+                        if(err) return next(err)
+                            let customerName = result[0].customer_name;
+                            //setup email data with unicode symbols
+                            emailBody = emailBody.replace('{email}', req.body.email);
+                            emailBody = emailBody.replace('{customer_name}', customerName);
+                            emailBody = emailBody.replace('{password}', newPass);
+
+                            let mailOptions = {
+                                from: `${configuration.from_name} < ${configuration.from_email} >`, // sender address
+                                to: 'er.prernag@gmail.com, rajput.pushpendra61@gmail.com', // list of receivers
+                                subject: `Forgot Password : ${configuration.projectName} +':)`, // Subject line
+                                html: emailBody, // html body
+                            };
+            
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, (error, info) => {
+                                if (error) return next(error)
+                                res.redirect('/');
+                            });
+                       })
+                    })
+                })
+                req.flash('success', 'Thanks ! New password has been send to register email.');
+            }else{
+                req.flash('email', 'Email does not exist');
+                res.render('home/index.ejs', req.body);
+            }
+        })
+    }
+})
 module.exports = router;
