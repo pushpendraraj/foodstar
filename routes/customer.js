@@ -181,8 +181,8 @@ router.post('/forgot', function(req, res, next){
 
                             let mailOptions = {
                                 from: `${configuration.from_name} < ${configuration.from_email} >`, // sender address
-                                to: 'er.prernag@gmail.com, rajput.pushpendra61@gmail.com', // list of receivers
-                                subject: `Forgot Password : ${configuration.projectName} +':)`, // Subject line
+                                to: `${req.body.email}`, // list of receivers
+                                subject: `Forgot Password : ${configuration.projectName}`, // Subject line
                                 html: emailBody, // html body
                             };
             
