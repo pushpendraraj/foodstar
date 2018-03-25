@@ -31,6 +31,7 @@ app.use(function(req, res, next){
     app.locals.isLoggedIn = req.session.isLoggedIn;
     app.locals.host = req.protocol + '://' +req.get('host');
     app.locals.userSession = {};
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
     next()
 })
 
@@ -39,11 +40,13 @@ var routes = require('./routes/index');
 var user = require('./routes/user');
 var restaurant = require('./routes/restaurant');
 var customer = require('./routes/customer');
+var api = require('./routes/api');
 
 app.use('/', routes);
 app.use('/user', user);
 app.use('/restaurant', restaurant);
 app.use('/customer', customer);
+app.use('/api', api);
 /******** #End Routing *********/
 
 // catch 404 and forward to error handler
