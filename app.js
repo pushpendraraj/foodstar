@@ -8,6 +8,9 @@ var flash = require('express-flash');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var validator = require('express-validator');
+// var $       = require( 'jquery' );
+// var dt      = require( 'datatables.net' );
+// var buttons = require( 'datatables.net-buttons' )();
 
 app.locals.configuration = config;
 var sess;
@@ -40,12 +43,14 @@ var routes = require('./routes/index');
 var user = require('./routes/user');
 var restaurant = require('./routes/restaurant');
 var customer = require('./routes/customer');
+var template = require('./routes/template');
 var api = require('./routes/api');
 
 app.use('/', routes);
 app.use('/user', user);
 app.use('/restaurant', restaurant);
 app.use('/customer', customer);
+app.use('/template', template);
 app.use('/api', api);
 /******** #End Routing *********/
 
