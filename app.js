@@ -8,9 +8,32 @@ var flash = require('express-flash');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var validator = require('express-validator');
-// var $       = require( 'jquery' );
-// var dt      = require( 'datatables.net' );
-// var buttons = require( 'datatables.net-buttons' )();
+var passport = require('passport');
+var FacebookStrategy = require('passport-facebook').Strategy;
+passport.use(new FacebookStrategy({
+    clientID: '231755977205378',
+    clientSecret: 'aa6c0e4dd920fad129ae31317ad2a044',
+    callbackURL: "http://localhost:8081/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+      console.log(profile);
+    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+
+app.get('/auth/facebook',
+  passport.authenticate('facebook', { scope: ['user_friends', 'manage_pages'] })
+);
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/' }),
+  function(req, res) {
+      console.log(res);
+    // Successful authentication, redirect home. 
+    res.redirect('/');
+  });
+
 
 app.locals.configuration = config;
 var sess;
