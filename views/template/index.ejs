@@ -51,8 +51,8 @@
                     <td><%=templates[i].email_subject%></td>
                     <td><%=templates[i].template_status%></td>
                     <td>
-                      <a href="/template/view-template/tempalteId:<%=templates[i].template_id%>"><i class="fa fa-eye"></i></a> |
-                      <a href="/template/view-template/tempalteId:<%=templates[i].template_id%>"><i class="fa fa-pencil"></i></a>
+                      <a href="/template/view-template/<%=templates[i].template_id%>"><i class="fa fa-eye"></i></a> |
+                      <a href="/template/view-template/<%=templates[i].template_id%>"><i class="fa fa-pencil"></i></a>
                     </td>
                   </tr>
                   <% } %>

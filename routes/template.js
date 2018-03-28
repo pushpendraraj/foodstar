@@ -9,12 +9,11 @@ router.get('/list-templates', function(req, res, next){
     })   
 })
 
-router.get('/view-template/:tmeplateId', function(req, res, next){
-    console.log(req.params);
+router.get('/view-template/:templateId', function(req, res, next){
     let templateId = req.params.templateId;
-    EmailTemplate.getTemplate({template_id : templateId}, '*', function(err, templates){
+    EmailTemplate.getTemplate({template_id : templateId}, '*', function(err, result){
         if(err) return next(err)
-        res.render('template/view.ejs',{templates:templates});
+        res.render('template/view.ejs',{template:result});
     }) 
 })
 
