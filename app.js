@@ -13,23 +13,49 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 passport.use(new FacebookStrategy({
     clientID: '231755977205378',
     clientSecret: 'aa6c0e4dd920fad129ae31317ad2a044',
-    callbackURL: "http://localhost:8081/auth/facebook/callback"
+    callbackURL: "http://localhost:8081/auth/facebook/callback",
+    profileFields: ['id', 'name','picture.type(large)', 'emails', 'displayName', 'about', 'gender', 'profileUrl'], 
   },
   function(accessToken, refreshToken, profile, cb) {
-      console.log(profile);
-    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
+      // console.log(profile);
+      let userData = {
+        'customer_role_id':3,
+        'customer_name':profile.displayName,
+        'email':profile.emails[0].value,
+        'contact_no':8130606975,
+        'gender':profile.gender,
+        'password':'123456',
+        'contact_address':'',
+        'dob':'',
+        'customer_status':1,
+        'is_contact_verified':0,
+        'customer_added_date':new Date(),
+        'customer_modified_date':new Date(),
+      }
+      let Customer = require('./models/Customer');
+      Customer.addCustomer(userData, function(err, result){
+        if(err) return next(err)
+        // res.redirect('/');
+        // app.redirect
+        // app.get('/')
+    })
+    // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      // return cb(err, user);
+    // });
   }
 ));
 
 app.get('/auth/facebook',
-  passport.authenticate('facebook', { scope: ['user_friends', 'manage_pages'] })
+  passport.authenticate('facebook', { 
+    failureRedirect: '/'
+  })
 );
+
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/' }),
   function(req, res) {
-      console.log(res);
+      // console.log(res);
+      console.log('done')
     // Successful authentication, redirect home. 
     res.redirect('/');
   });
