@@ -3,6 +3,7 @@ var router = express.Router();
 var Restaurant = require('../models/Restaurant');
 var EmailTemplate = require('../models/EmailTemplate');
 var Blog = require('../models/Blog');
+var Cuisine = require('../models/Cuisine');
 
 router.get('/list-restaurants', function(req, res, next){
     Restaurant.getResturants(function(err, result){
@@ -19,6 +20,13 @@ router.get('/list-templates', function(req, res, next){
 
 router.get('/list-blogs', function(req, res, next){
     Blog.getBlogs("status = 'Published'", function(err, result){
+        if(err) return next(err)
+        return res.send(result);
+    })
+})
+
+router.get('/list-cuisines', function(req, res, next){
+    Cuisine.getCuisines("1","*", function(err, result){
         if(err) return next(err)
         return res.send(result);
     })
