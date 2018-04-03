@@ -6,7 +6,7 @@ var Blog = require('../models/Blog');
 var Cuisine = require('../models/Cuisine');
 
 router.get('/list-restaurants', function(req, res, next){
-    Restaurant.getResturants(function(err, result){
+    Restaurant.getResturants('status = 1 AND is_delete = 0', '*', function(err, result){
         if(err) return next(err)
         return res.send(result);
     });
@@ -27,6 +27,16 @@ router.get('/list-blogs', function(req, res, next){
 
 router.get('/list-cuisines', function(req, res, next){
     Cuisine.getCuisines("1","*", function(err, result){
+        if(err) return next(err)
+        return res.send(result);
+    })
+})
+
+router.get('/get-cuisines-by-id', function(req, res, next){
+    let CuisIds = req.params;
+    console.log(CuisIds)
+    Cuisine.geCuisinesByIds(CuisIds, '*', function(err, result){
+        // console.log(this.sql)
         if(err) return next(err)
         return res.send(result);
     })
