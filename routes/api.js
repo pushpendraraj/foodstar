@@ -32,11 +32,9 @@ router.get('/list-cuisines', function(req, res, next){
     })
 })
 
-router.get('/get-cuisines-by-id', function(req, res, next){
-    let CuisIds = req.params;
-    console.log(CuisIds)
+router.get('/get-cuisines-by-id/:ids', function(req, res, next){
+    let CuisIds = req.params.ids;
     Cuisine.geCuisinesByIds(CuisIds, '*', function(err, result){
-        // console.log(this.sql)
         if(err) return next(err)
         return res.send(result);
     })
