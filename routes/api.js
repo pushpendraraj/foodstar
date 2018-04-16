@@ -5,6 +5,12 @@ var EmailTemplate = require('../models/EmailTemplate');
 var Blog = require('../models/Blog');
 var Cuisine = require('../models/Cuisine');
 
+router.get('/otp', function(req, res, next){
+    let result = '8130606975';
+    // if(err) return next(err);
+    return res.send(result);
+})
+
 router.get('/list-restaurants', function(req, res, next){
     Restaurant.getResturants('status = 1 AND is_delete = 0', '*', function(err, result){
         if(err) return next(err)
