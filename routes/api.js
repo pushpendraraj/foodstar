@@ -24,6 +24,29 @@ router.get('/list-templates', function(req, res, next){
     })
 })
 
+router.post('/register-user', function(req, res, next){
+    console.log(post);
+    // let userData = {
+    //     'customer_role_id':3,
+    //     'customer_name':req.body.customer_name,
+    //     'email':req.body.email,
+    //     'contact_no':req.body.contact_no,
+    //     'gender':req.body.gender,
+    //     'password':(req.body.password =='')?'':passwordHash.generate(req.body.password),
+    //     'contact_address':req.body.contact_address,
+    //     'dob':req.body.dob,
+    //     'customer_status':req.body.customer_status,
+    //     'is_contact_verified':0,
+    //     'customer_added_date':new Date(),
+    //     'customer_modified_date':new Date(),
+    // };
+
+    // EmailTemplate.getTemplate({template_status : 'Active'}, '*', function(err, templates){
+    //     if(err) return next(err)
+    //     res.send({templates:templates,recordsTotal:6});
+    // // })
+})
+
 router.get('/list-blogs', function(req, res, next){
     Blog.getBlogs("status = 'Published'", function(err, result){
         if(err) return next(err)

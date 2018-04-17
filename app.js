@@ -10,6 +10,11 @@ var session = require('express-session');
 var validator = require('express-validator');
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
+
+var xlsx = require('node-xlsx').default;
+const workSheetsFromFile = xlsx.parse(`${__dirname}/book1.xlsx`);
+// console.log(workSheetsFromFile[0].data);
+
 passport.use(new FacebookStrategy({
     clientID: '231755977205378',
     clientSecret: 'aa6c0e4dd920fad129ae31317ad2a044',
