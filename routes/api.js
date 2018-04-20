@@ -25,7 +25,8 @@ router.get('/list-templates', function(req, res, next){
 })
 
 router.post('/register-user', function(req, res, next){
-    console.log(post);
+    console.log(req.body);
+    console.log('Test1')
     // let userData = {
     //     'customer_role_id':3,
     //     'customer_name':req.body.customer_name,
