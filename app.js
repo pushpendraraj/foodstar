@@ -78,6 +78,10 @@ app.use(session({
 app.use(flash())
 app.use(validator());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// parse application/json
+app.use(bodyParser.json());
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine','ejs'); // Load view engine
 app.set('layouts', './layouts/layout');

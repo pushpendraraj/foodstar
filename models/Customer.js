@@ -8,8 +8,8 @@ var Customer = {
     getCustomerDetails:function(fields, conditions, callback){
         return db.query('select '+fields+' from '+tableName+' where '+conditions, callback)
     },
-    addCustomer:function(conditions, callback){
-        return db.query('insert into '+tableName+' SET ?', conditions, callback)
+    addCustomer:function(fields, callback){
+        return db.query('insert into '+tableName+' SET ?', fields, callback)
     },
     updateCustomer:function(fields, conditions, callback){
         return db.query('update '+tableName+' SET ? WHERE ?', [fields,conditions], callback);
