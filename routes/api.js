@@ -78,20 +78,39 @@ router.post('/register-user', function(req, res, next){
             });
 
             let promise2 = new Promise((resolve, reject)=>{
-                resolve('Message send successfully');
+                if(configuration.notificationMessages.enableMessage){
+                    resolve('Message send successfully');
+                }else{
+                    resolve('Message api is disable');
+                }  
             });
             
             Promise.all([promise1, promise2])
             .then((values)=>{
                 let message = configuration.notificationMessages.userResiterSuccessNotify;
-                return res.send({result:result, data:userData, message:message});
+                return res.send({result:result, userData:userData, message:message});
             })
             .catch(() => { 
                 let message = configuration.notificationMessages.userResiterSuccess;
-                return res.send({result:result, data:userData, message:message});
+                return res.send({result:result, userData:userData, message:message});
             });
         })
     }
+})
+
+router.post('/login-user', function(req, res, next){
+    let userData = {
+        'email':req.body.email,
+        'password':req.body.password
+    }
+    Customer.getCustomerDetails('*', 'email= "'+userData.email+'" AND customer_status = 1', function(err, result){
+        if(err) return next(err)
+        if(passwordHash.verify(userData.password, result[0].password)){   
+            res.send({login:true, result:result[0], message:configuration.notificationMessages.loginSuccess})
+        }else{
+            res.send({login:false, message:configuration.notificationMessages.invalidLogin})
+        }
+    })
 })
 
 router.get('/list-blogs', function(req, res, next){

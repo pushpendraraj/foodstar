@@ -7,7 +7,10 @@ configuration = {
     'from_name':'Pushpendra Rajput',
     'notificationMessages' : {
         userResiterSuccessNotify:'Registeration successfully, notification has been send to your register email and on register mobile number.',
-        userResiterSuccess: 'Registeration successfully, will notify you soon.'
-    }
+        userResiterSuccess: 'Registeration successfully, will notify you soon.',
+        invalidLogin:'Invalid username or password.',
+        loginSuccess:'User login successfully.',
+    },
+    'enableMessage':true,
 }
 module.exports = configuration;
