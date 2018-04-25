@@ -5,12 +5,7 @@ var Restaurant = require('../models/Restaurant');
 router.get('/list-restaurants', function(req, res, next){
     Restaurant.getResturants('1', '*', function(err, result){
         if(err) return next(err);
-        sess = req.session;
-        if(sess.isLoggedIn){
-            res.render('restaurant/index',{data: result});
-        }else{
-            res.redirect('/');
-        }
+        res.render('restaurant/index',{data: result});
     })
 });
 
