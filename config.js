@@ -8,8 +8,9 @@ configuration = {
     'notificationMessages' : {
         userResiterSuccessNotify:'Registeration successfully, notification has been send to your register email and on register mobile number.',
         userResiterSuccess: 'Registeration successfully, will notify you soon.',
-        invalidLogin:'Invalid username or password.',
-        loginSuccess:'User login successfully.',
+        invalidLogin:'<strong>Sorry</strong> ! Invalid email or password.',
+        loginSuccess:'<strong>Thnak You</strong> ! User login successfully.',
+        serverError:'<strong>Sorry</strong> ! Something went wrong, please try again after some time.',
     },
     'enableMessage':true,
 }
