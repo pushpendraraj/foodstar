@@ -7,6 +7,7 @@ var Cuisine = require('../models/Cuisine');
 var Customer = require('../models/Customer');
 var passwordHash = require('password-hash');
 var transporter = require('../mailer');
+var generator = require('generate-password');
 
 router.get('/otp', function(req, res, next){
     let result = '8130606975';
@@ -112,6 +113,54 @@ router.post('/login-user', function(req, res, next){
         }
     })
 })
+
+router.post('/forgot-password', function(req, res, next){
+    req.assert('email', 'input a valid email address.').isEmail();
+    let errors = req.validationErrors();
+    if(errors){
+        res.send({isSuccess:false, msg:errors[0].msg});
+    }else{
+        Customer.isCustomerExist('email= "'+req.body.email+'" AND customer_status = 1', function(err, result){
+            if(err) return next(err)
+            if(result[0].count > 0){
+                EmailTemplate.getTemplate({template_key:'forgot_password'},'*',function(err, result){
+                    if(err) return next(err)
+                    let newPass = generator.generate({
+                        length: 6,
+                        numbers: false
+                    });
+                    let encodePass = passwordHash.generate(newPass);
+                    let emailBody = result[0].email_body;
+
+                    Customer.updateCustomer({'password':encodePass},{'email':req.body.email}, function(err, result){
+                        if(err) return next(err)
+                        Customer.getCustomerDetails('customer_name','email="'+req.body.email+'"', function(err, result){
+                        if(err) return next(err)
+                            let customerName = result[0].customer_name;
+                            //setup email data with unicode symbols
+                            emailBody = emailBody.replace('{email}', req.body.email);
+                            emailBody = emailBody.replace('{customer_name}', customerName);
+                            emailBody = emailBody.replace('{password}', newPass);
+
+                            let mailOptions = {
+                                from: `${configuration.from_name} < ${configuration.from_email} >`, // sender address
+                                to: `${req.body.email}`, // list of receivers
+                                subject: `Forgot Password : ${configuration.projectName}`, // Subject line
+                                html: emailBody, // html body
+                            };
+            
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, (error, info) => {
+                                if (error) return next(error)
+                                res.send({isSuccess:true, msg:'Password reset successfully, a new password has been send to your register email.'});
+                            });
+                       });
+                    });
+                });
+            }
+        });
+    }
+});
 
 router.get('/list-blogs', function(req, res, next){
     Blog.getBlogs("status = 'Published'", function(err, result){
