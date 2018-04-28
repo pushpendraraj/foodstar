@@ -103,15 +103,22 @@ router.post('/login-user', function(req, res, next){
     let userData = {
         'email':req.body.email,
         'password':req.body.password
+    };
+    req.assert('email', 'Invalid email address.').isEmail();
+    req.assert('password', 'password is required.').isEmpty();
+    let errors = req.validationErrors();
+    if(errors){
+        res.send({login:false, message:configuration.notificationMessages.invalidLogin});
+    } else {
+        Customer.getCustomerDetails('*', 'email= "'+userData.email+'" AND customer_status = 1', function(err, result){
+            if(err) return next(err)
+            if(passwordHash.verify(userData.password, result[0].password)){   
+                res.send({login:true, result:result[0], message:configuration.notificationMessages.loginSuccess})
+            }else{
+                res.send({login:false, message:configuration.notificationMessages.invalidLogin})
+            }
+        });
     }
-    Customer.getCustomerDetails('*', 'email= "'+userData.email+'" AND customer_status = 1', function(err, result){
-        if(err) return next(err)
-        if(passwordHash.verify(userData.password, result[0].password)){   
-            res.send({login:true, result:result[0], message:configuration.notificationMessages.loginSuccess})
-        }else{
-            res.send({login:false, message:configuration.notificationMessages.invalidLogin})
-        }
-    })
 })
 
 router.post('/forgot-password', function(req, res, next){
