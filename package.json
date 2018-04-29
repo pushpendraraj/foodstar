@@ -39,9 +39,11 @@
     "node-xlsx": "^0.12.0",
     "nodemailer": "^4.6.3",
     "nodemon": "^1.17.2",
+    "npm": "^6.0.0",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "password-hash": "^1.2.2",
+    "sms-gateway-nodejs": "^0.1.0",
     "xoauth2": "^1.2.0"
   }
 }
