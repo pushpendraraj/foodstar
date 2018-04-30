@@ -19,5 +19,6 @@ configuration = {
         invalidFieldValues:`You have enter invalid field values, please try again with valid data.`,
     },
     'enableMessage':true,
+    'smsDeviceId':87449, //87419
 }
 module.exports = configuration;

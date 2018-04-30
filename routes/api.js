@@ -11,9 +11,15 @@ var generator = require('generate-password');
 var smsGateway = require('sms-gateway-nodejs')('rajput.pushpendra62@gmail.com', '123456');
 
 router.get('/otp', function(req, res, next){
-    let result = '8130606975';
-    return res.send(result);
-})
+    let newOtp = Math.floor((Math.random() * 1000000) + 1);
+    smsGateway.message.sendMessageToNumber(configuration.smsDeviceId, '+918130606975', 'Hello User Your new otp is '+newOtp)
+    .then((response) => {
+        return res.send({data:newOtp, response:response});
+    })
+    .catch((error) => {
+        return res.send(error);
+    });
+});
 
 router.get('/list-restaurants', function(req, res, next){
     Restaurant.getResturants('status = 1 AND is_delete = 0', '*', function(err, result){
