@@ -10,6 +10,19 @@ var session = require('express-session');
 var validator = require('express-validator');
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
+cors = require('cors');
+var originsWhitelist = [
+    'http://localhost:4200',      //this is my front-end url for development
+  ];
+  var corsOptions = {
+    origin: function(origin, callback){
+          var isWhitelisted = originsWhitelist.indexOf(origin) !== -1;
+          callback(null, isWhitelisted);
+    },
+    credentials:true
+  }
+  //here is the magic
+app.use(cors(corsOptions));
 
 var xlsx = require('node-xlsx').default;
 const workSheetsFromFile = xlsx.parse(`${__dirname}/book1.xlsx`);
@@ -92,7 +105,7 @@ app.use(function(req, res, next){
     app.locals.isLoggedIn = req.session.isLoggedIn;
     app.locals.host = req.protocol + '://' +req.get('host');
     app.locals.userSession = {};
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
     next()
 })
 
